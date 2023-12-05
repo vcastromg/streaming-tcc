@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Outlet } from "react-router-dom";
 import useThemeStore from "./data/stores/themeStore";
-import { Container } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Header from "./components/molecules/Header";
@@ -10,6 +10,7 @@ import { SnackbarProvider } from "notistack";
 
 // @ts-ignore
 import FOG from 'vanta/src/vanta.fog'
+import Footer from "./components/molecules/Footer";
 
 const App = () => {
   const vIsDark = useThemeStore(state => state.isDark)
@@ -76,7 +77,7 @@ const App = () => {
         vVantaEffect.destroy()
       }
     }
-  }, [vIsDark])
+  }, [vIsDark, vVantaEffect])
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -84,10 +85,13 @@ const App = () => {
       </div>
       <SnackbarProvider anchorOrigin={{vertical: 'top', horizontal: 'center'}} style={{marginTop: 72}}/>
       <CssBaseline/>
-      <Header/>
-      <Container>
-        <Outlet/>
-      </Container>
+      <Stack sx={{height: '100%'}}>
+        <Header/>
+        <Container sx={{flex: 1}}>
+          <Outlet/>
+        </Container>
+        <Footer />
+      </Stack>
     </ThemeProvider>
   );
 }
